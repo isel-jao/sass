@@ -20,18 +20,29 @@ sass --watch <input_file.scss> <output_file.css>
 
 - Sass variables are only available at the level of nesting where they are defined.
 
-* `!global` indicates that a variable is global, which means that it is accessible on all levels.
+- `!global` indicates that a variable is global, which means that it is accessible on all levels.
+
+- Shadowning: Local variables can even be declared with the same name as a global variable. If this happens, there are actually two different variables with the same name: one local and one global.
+
+- `!default` This assigns a value to a variable only if that variable isn’t defined or its value is null. Otherwise, the existing value will be used.
+
+- Variables that are defined by a built-in module cannot be modified.
 
 ```scss
+@use "sass:math" as math;
 $font-stack: Helvetica, sans-serif;
 $primary-color: #333;
+
+$color: red;
+$color: blue !default; // this will not override $color
+math.$pi: 0; // this assignment will fail
 
 body {
   font: 100% $font-stack;
   color: $primary-color;
 }
 h1 {
-  $myColor: green !global;
+  $myColor: green !global; // this mean that $myColor is accessible on all levels
   color: $myColor;
 }
 
@@ -235,7 +246,7 @@ $icons: "eye" "\f112"12px, "start" "\f12e"16px, "stop" "\f12f"10px;
 <stong>Syntax:</strong>
 
 - @for <variable> from <expression> to <expression> { ... }
-- @for <variable> from <expression> to <expression> { ... }
+- @for <variable> from <expression> through <expression> { ... }
 
 ```scss
 $base-color: #036;
